@@ -27,7 +27,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Crear app Flask
-app = Flask(__name__, static_folder='../frontend', static_url_path='/frontend')
+app = Flask(__name__, static_folder='../frontend', static_url_path='', template_folder='../frontend')
 CORS(app)
 
 # Inicializar handlers globales
@@ -85,6 +85,11 @@ def inicializar_handlers():
 def index():
     """Redirigir a la página principal"""
     return send_from_directory('../frontend', 'index.html')
+
+@app.route('/<path:filename>')
+def serve_static(filename):
+    """Servir archivos estáticos (CSS, JS)"""
+    return send_from_directory('../frontend', filename)
 
 @app.route('/api/health', methods=['GET'])
 def health():
